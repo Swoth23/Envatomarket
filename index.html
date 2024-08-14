@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoExchange Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo_nav">
+                <img src="swapp.png" alt="logo">
+            </div>
+            <div class="logo">Envatomarket</div>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#liquidity">Liquidity</a></li>
+                <li><a href="#swap">Swap</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
+            <button class="btn-connect" id="connectWalletBtn">Connect Wallet</button>
+        </nav>
+    </header>
+
+    <section class="hero-section">
+        <h1>Trade and Earn with Ease</h1>
+        <p>Manage your crypto assets seamlessly. Add liquidity, swap tokens, and grow your portfolio.</p>
+        <div class="hero-buttons">
+            <button class="btn-primary" id="addLiquidityBtn">Add Liquidity</button>
+            <button class="btn-secondary" id="swapTokensBtn">Swap Tokens</button>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <section id="liquidity" class="liquidity-section">
+            <h2>Liquidity Pool Overview</h2>
+            <div class="liquidity-cards">
+                <div class="liquidity-card">
+                    <h3>Token A / Token B</h3>
+                    <p>Liquidity: $500,000</p>
+                    <p>Your Share: 10%</p>
+                </div>
+                <div class="liquidity-card">
+                    <h3>Token C / Token D</h3>
+                    <p>Liquidity: $300,000</p>
+                    <p>Your Share: 5%</p>
+                </div>
+                <!-- Add more cards as needed -->
+            </div>
+        </section>
+
+        <section id="swap" class="swap-section">
+            <h2>Swap Tokens Instantly</h2>
+            <div class="swap-container">
+                <div class="swap-box">
+                    <label for="swapFrom">From:</label>
+                    <input type="text" id="swapFrom" placeholder="Token A">
+                    <label for="swapTo">To:</label>
+                    <input type="text" id="swapTo" placeholder="Token B">
+                    <label for="swapAmount">Amount:</label>
+                    <input type="number" id="swapAmount" placeholder="Enter Amount">
+                    <button class="btn-primary">Swap</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Countdown Timer -->
+        <section id="countdown" class="countdown-section">
+            <h2>Presale Countdown</h2>
+            <div id="countdownTimer"></div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 Envatomarket. All rights reserved.</p>
+    </footer>
+
+    <!-- Modals for Adding Liquidity and Swapping -->
+    <div id="liquidityModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add Liquidity</h2>
+            <form class="liquidity-form">
+                <label for="modalTokenA">Token A:</label>
+                <input type="text" id="modalTokenA" placeholder="Enter Token A">
+                <label for="modalTokenB">Token B:</label>
+                <input type="text" id="modalTokenB" placeholder="Enter Token B">
+                <label for="modalAmountA">Amount A:</label>
+                <input type="number" id="modalAmountA" placeholder="Enter Amount A">
+                <label for="modalAmountB">Amount B:</label>
+                <input type="number" id="modalAmountB" placeholder="Enter Amount B">
+                <button type="submit" class="btn-primary">Add Liquidity</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="swapModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Swap Tokens</h2>
+            <form class="swap-form">
+                <label for="modalSwapFrom">From:</label>
+                <input type="text" id="modalSwapFrom" placeholder="Token A">
+                <label for="modalSwapTo">To:</label>
+                <input type="text" id="modalSwapTo" placeholder="Token B">
+                <label for="modalSwapAmount">Amount:</label>
+                <input type="number" id="modalSwapAmount" placeholder="Enter Amount">
+                <button type="submit" class="btn-primary">Swap</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+    <script>
+        // Web3.js integration
+        const connectWalletBtn = document.getElementById('connectWalletBtn');
+        connectWalletBtn.addEventListener('click', async () => {
+            if (window.ethereum) {
+                try {
+                    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                    console.log('Connected to:', accounts[0]);
+                    // Add further wallet connection handling here
+                } catch (error) {
+                    console.error('User denied wallet connection:', error);
+                }
+            } else {
+                alert('Please install MetaMask!');
+            }
+        });
+
+        // Countdown Timer
+        const countdownTimer = document.getElementById('countdownTimer');
+        const targetDate = new Date('2024-12-31T00:00:00').getTime();
+        const countdown = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            if (distance < 0) {
+                clearInterval(countdown);
+                countdownTimer.innerHTML = 'Presale Ended';
+            } else {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                countdownTimer.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }
+        }, 1000);
+
+        // Add more JavaScript for handling liquidity and swapping with smart contracts
+    </script>
+</body>
+</html>
